@@ -1,0 +1,82 @@
+﻿<div class="col-md-6 col-md-offset-3">
+    <!-- Form for create courier -->
+    <div *ngIf="formType == 'createCourier'">
+      <h2>צור שליח</h2>
+      <form name="form" (ngSubmit)="f.form.valid && createCourier()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+            <label for="email">:אי-מייל</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+            <div *ngIf="f.submitted && !email.valid" class="help-block">נדרש אימייל</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">:סיסמא</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">נדרש סיסמא</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+              <label for="phone">:מספר טלפון</label>
+              <input type="text" class="form-control" name="phone" [(ngModel)]="model.phone" #phone="ngModel" />
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+            <label for="firstName">:שם פרטי</label>
+            <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #po="ngModel" />
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+            <label for="lastName">:שם משפחה</label>
+            <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #po="ngModel" />
+        </div>
+          <div class="form-group">
+              <a (click)=backFromCourierForm() class="btn btn-link">חזור</a>
+              <button *ngIf="formType == 'createCourier'" [disabled]="loading" class="btn btn-primary">צור</button>
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          </div>
+      </form>
+    </div>
+
+    <!-- Form for update courier -->
+    <div *ngIf="formType == 'updateCourier'">
+      <h2>עדכן פרטי שליח</h2>
+      <form name="form" (ngSubmit)="f.form.valid && updateCourier()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+            <label for="email">:אי-מייל</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+            <div *ngIf="f.submitted && !email.valid" class="help-block">נדרש אימייל</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">:סיסמא</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">נדרש סיסמא</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+              <label for="phone">:מספר טלפון</label>
+              <input type="text" class="form-control" name="phone" [(ngModel)]="model.phone" #phone="ngModel" />
+        </div>
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+            <label for="po">:Po</label>
+              <input type="text" class="form-control" name="po" [(ngModel)]="model.po" #po="ngModel" />
+          </div>
+          <div class="form-group">
+              <a (click)=backFromCourierForm() class="btn btn-link">חזור</a>
+              <button *ngIf="formType == 'updateCourier'" [disabled]="loading" class="btn btn-primary">עדכן</button>
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          </div>
+      </form>
+    </div>
+
+    <!-- Form for Assign courier for a region-->
+        <div *ngIf="formType == 'assignCourier'" class="form-group">
+            <h2>שייך שליח לאזור</h2>
+            <div><label for="preferredArea">:אזור נבחר</label></div>
+            <div><label for="preferredArea">{{region.regionName}}</label></div>
+            <label for="preferredArea">:בחר את השליח שברצונך לשייך לאזור הנבחר</label>
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle btn-primary-custom" type="button" data-toggle="dropdown"><div id="areas-dropdown" >{{choosedCourierName}}</div><span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                  <li *ngFor="let courier of couriers"><a (click)="updateDropdownCourier(courier)" >{{courier.id}} - {{courier.email}}</a></li>
+              </ul>
+            </div>
+            <a (click)=backFromAssignCourier() class="btn btn-link">חזור</a>
+            <button (click)="assignCourierToRegion()" [disabled]="loading" class="btn btn-primary">שייך</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </div>
+</div>

@@ -1,0 +1,92 @@
+/* You can add global styles to this file, and also import other style files */
+.btn-primary-custom {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.btn-primary-custom div {
+   text-align: left;
+}
+input {
+  text-align: right;
+}
+
+.dropdown-menu{
+  text-align: right;
+}
+
+.btn-primary-custom span {
+   float: right;
+   top: -9px;
+   position: relative;
+}
+
+.dropdown-input {
+  visibility: hidden;
+}
+div {
+  text-align: right;
+}
+
+.to_center {
+  text-align: center;
+}
+
+.to_right {
+  text-align: right;
+}
+
+.to_left {
+  text-align: left;
+}
+
+.table-striped{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-column{
+  border-right: 1px solid grey;
+  align-self: stretch;
+  text-align: center;
+}
+
+.float-left{
+  float: left;
+}
+
+.main-behind{
+  position: relative;
+    z-index:10;
+}
+
+.main-header{
+  position: relative;
+    z-index:100;
+}
+
+.float-right{
+  float: right;
+}
+
+.dropdown-menu-left{
+  position: relative;
+}
+.select{
+  width: 20%;
+  height: 33px;
+}

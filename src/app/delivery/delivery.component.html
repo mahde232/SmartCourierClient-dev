@@ -1,0 +1,56 @@
+
+
+
+<div class="col-md-6 col-md-offset-3">
+    <!-- Form for creating delivery In Region -->
+    <h2 *ngIf="delivery == null">צור משלוח חדש</h2>
+    <form *ngIf="delivery == null" name="form" (ngSubmit)="f.form.valid && createDeliveryInRegion()" #f="ngForm" novalidate>
+        <div class="dropdown">
+          <label for="phone">בחר האם המשלוח דחוף</label>
+          <button class="btn btn-primary dropdown-toggle btn-primary-custom" type="button" data-toggle="dropdown"><div id="areas-dropdown" >{{choosedOption}}</div><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+              <li *ngFor="let option of options"><a (click)="updateDropdownIsUrgent(option)" >{{option}}</a></li>
+          </ul>
+        </div>
+          <div class="form-group" >
+              <label for="address">הזן כתובת שנמצאת באזור הנבחר</label>
+              <input type="text" class="form-control" id="address" name="address" [(ngModel)]="model.address" #search >
+      </div>
+      <div class="row">
+        <div clas="col-md-12">
+          <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" style="height: 500px;">
+            <agm-marker *ngFor="let latlng of latlongs" [latitude]="latlng.latitude" [longitude]="latlng.longitude"></agm-marker>
+            </agm-map>
+          </div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !phone.valid }">
+             <label for="phone">הזן את מספר הטלפון של מקבל המשלוח</label>
+             <input type="text" class="form-control" name="phone" [(ngModel)]="model.phone" #phone="ngModel" required />
+             <div *ngIf="f.submitted && !phone.valid" class="help-block">לא הוזן מספר טלפון</div>
+         </div>
+        <div class="form-group">
+             <label for="claimant">הזן את שם דורש המשלוח</label>
+             <input type="text" class="form-control" name="claimant" [(ngModel)]="model.claimant" #claimant="ngModel" />
+         </div>
+         <div class="form-group">
+              <label for="entrance">הזן את מספר הכניסה</label>
+              <input type="text" class="form-control" name="entrance" [(ngModel)]="model.entrance" #entrance="ngModel" />
+          </div>
+          <div class="form-group">
+               <label for="floor">הזן מספר קומה</label>
+               <input type="text" class="form-control" name="floor" [(ngModel)]="model.floor" #floor="ngModel" />
+           </div>
+           <div class="form-group">
+                <label for="box">הזן מספר תיבה</label>
+                <input type="text" class="form-control" name="box" [(ngModel)]="model.box" #box="ngModel" />
+            </div>
+        <div class="form-group">
+            <button *ngIf="delivery == null" [disabled]="loading" class="btn btn-primary">צור משלוח</button>
+            <button *ngIf="delivery != null" [disabled]="loading" class="btn btn-primary">עידכון</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </div>
+    </form>
+    <a *ngIf="delivery == null" [routerLink]="['/']" class="btn btn-link">חזור</a>
+</div>
+<!--(onAddressChange)="handleAddressChange($event)"-->
+<!--[options]='options'-->

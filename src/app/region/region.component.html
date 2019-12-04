@@ -1,0 +1,33 @@
+﻿<div class="col-md-6 col-md-offset-3">
+    <!-- Form for create or update region -->
+    <div *ngIf="choosedRegionId < 0">
+      <h2>צור אזור חדש</h2>
+      <form autocomplete="off" *ngIf="choosedRegionId < 0" name="form" (ngSubmit)="f.form.valid && createRegion()" #f="ngForm" novalidate>
+        <!--<div class="autocomplete" style="width:300px;">
+  <input id="myInput" type="text" name="myCountry" placeholder="עיר">
+</div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !regionName.valid }">
+          <label for="regionName">:שם העיר</label>
+          <input id="regionName" type="text" class="form-control" [(ngModel)]="model.regionName" [ngbTypeahead]="search" [resultFormatter]="cities"  #regionName="ngModel" required/>
+          <div *ngIf="f.submitted && !regionName.valid" class="help-block">נדרש שם אזור</div>
+      </div>-->
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !regionName.valid }">
+            <label for="regionName">שם העיר</label>
+            <input id="cities" [ng5-auto-complete]="cities" type="text" class="form-control" name="regionName" [(ngModel)]="model.regionName" #regionName="ngModel" required />
+            <div *ngIf="f.submitted && !regionName.valid" class="help-block">נדרש שם אזור</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !threshold.valid }">
+            <label for="threshold">:סף מספר השליחויות החדשות עד להפצה</label>
+            <input type="text" class="form-control" name="threshold" [(ngModel)]="model.threshold" #threshold="ngModel" required />
+            <div *ngIf="f.submitted && !threshold.valid" class="help-block">נדרש מספר סף</div>
+        </div>
+          <div class="form-group">
+              <a *ngIf="choosedRegionId < 0" (click)="back()" class="btn btn-link">חזור</a>
+              <button *ngIf="choosedRegionId < 0" [disabled]="loading" class="btn btn-primary">צור אזור</button>
+              <a *ngIf="choosedRegionId >= 0" (click)="back()" class="btn btn-link">חזור</a>
+              <button *ngIf="choosedRegionId >= 0" [disabled]="loading" class="btn btn-primary">עדכן נתוני אזור</button>
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          </div>
+      </form>
+    </div>
+</div>

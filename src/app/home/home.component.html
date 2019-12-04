@@ -1,0 +1,141 @@
+<!--Global header-->
+<div class="main-header">
+  <img class="float-left" src="assets\img\logo.png">
+  <p><a [routerLink]="['/login']">התנתקות</a></p>
+</div>
+<!--Menu screen-->
+<div *ngIf="showScreen =='Menu'" class="main-header">
+  <button (click)="changeScreen('Courier')" type="submit" class="btn btn-primary">שליחים</button>
+  <button (click)="changeScreen('Region')" type="submit" class="btn btn-primary">אזורים</button>
+</div>
+<!--Courier screen-->
+<div *ngIf="showScreen =='Courier' || showScreen == 'CourierInRegion'">
+  <div><button *ngIf="showScreen =='Courier'" type="submit" class="btn btn-primary pull-right" (click)="showCourierCreateForm()">צור שליח</button>
+  <button *ngIf="showScreen == 'CourierInRegion'" type="submit" class="btn btn-primary pull-right" (click)="showCourierAssignForm(region)">שייך שליח</button>
+  <label *ngIf="showScreen == 'CourierInRegion'">:מציג שליחים עבור אזור                     .</label>
+  <div><label *ngIf="showScreen == 'CourierInRegion'">{{region.regionName}}                                .</label></div></div>
+  <table class="table table-striped table-bordered" style="width:100%">
+    <thead>
+      <tr>
+        <th *ngIf="showScreen != 'CourierInRegion'" class="table-column"></th>
+        <th class="table-column"></th>
+        <th *ngIf="showScreen != 'CourierInRegion'" class="table-column"></th>
+        <th class="table-column">שם משפחה</th>
+        <th class="table-column">שם פרטי</th>
+        <th class="table-column">טלפון</th>
+        <th class="table-column">אימייל</th>
+        <th class="table-column">מספר סוכן</th>
+        <th class="table-column">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let courier of couriers; let i = index">
+        <td class="table-column">
+          <button *ngIf="showScreen != 'CourierInRegion'" type="button" class="btn btn-danger" (click)="deleteCourier(courier.id)">מחיקה</button>
+          <button *ngIf="showScreen == 'CourierInRegion'" type="button" class="btn btn-danger" (click)="unassignCourierToRegion(courier)">בטל שייוך</button>
+        </td>
+        <td class="table-column" *ngIf="showScreen != 'CourierInRegion'">
+          <button type="submit" class="btn btn-info" (click)="showCourierEditForm(courier)" >עריכה</button>
+        </td>
+        <td *ngIf="showScreen != 'CourierInRegion'" class="table-column">  <div *ngIf="courier.delivery.length > 0"><a  (click)="showDeliveriesOfCourier(courier.id, courier.delivery)">משלוחים</a></div><div  *ngIf="courier.delivery.length <= 0"> <a  (click)="showDeliveriesOfCourier(courier.id, courier.delivery)">אין משלוחים</a></div></td>
+        <td class="table-column">{{ courier.firstName }}</td>
+        <td class="table-column">{{ courier.lastName }}</td>
+        <td class="table-column">{{ courier.phone }}</td>
+        <td class="table-column">{{ courier.email }}</td>
+        <td class="table-column">{{ courier.id }}</td>
+        <th class="table-column" scope="row">{{ i + 1 }}</th>
+      </tr>
+    </tbody>
+  </table>
+  <button *ngIf="showScreen =='Courier'" (click)="changeScreen('Menu')" type="submit" class="btn btn-primary"><חזרה לתפריט</button>
+  <button *ngIf="showScreen == 'CourierInRegion'" (click)="changeScreen('Region')" type="submit" class="btn btn-primary"><חזרה</button>
+</div>
+<!--Delivery screen-->
+<div *ngIf="showScreen == 'DeliveryInRegion' || showScreen == 'DeliveryOfCourier'">
+  <div><button *ngIf="showScreen == 'DeliveryInRegion'" type="submit" class="btn btn-primary pull-right" (click)="showCreateDeliveryInRegionScreen(region)">משלוח חדש</button>
+  <label *ngIf="showScreen == 'DeliveryInRegion'">:מציג משלוחים עבור אזור                     .</label>
+  <div><label *ngIf="showScreen == 'DeliveryInRegion'">{{region.regionName}}                     .</label></div></div>
+  <select *ngIf="showScreen == 'DeliveryOfCourier'" class="select" id="regionSelected" (change)="regionSelect($event.target.value)">
+    <option value="" selected="selected">כל האזורים</option>
+    <option *ngFor="let region of regions" [ngValue]="region">{{region.regionName}}</option>
+  </select>
+  <table class="table table-striped table-bordered" style="width:100%">
+    <thead>
+      <tr>
+        <th *ngIf="showScreen != 'DeliveryOfCourier'" class="table-column"></th>
+        <th *ngIf="showScreen != 'DeliveryOfCourier'" class="table-column"></th>
+        <th class="table-column">סוג</th>
+        <th class="table-column">האם דחוף</th>
+        <th class="table-column">תיבה</th>
+        <th class="table-column">קומה</th>
+        <th class="table-column">כניסה</th>
+        <th class="table-column">דורש המשלוח</th>
+        <th class="table-column">טלפון</th>
+        <th class="table-column">כתובת</th>
+        <th class="table-column">מספר משלוח</th>
+        <th class="table-column">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let delivery of deliveries; let i = index">
+        <td *ngIf="showScreen != 'DeliveryOfCourier'" class="table-column">
+          <button type="button" class="btn btn-danger" (click)="deleteDeliveryFromRegion(delivery.id)">מחיקה</button>
+        </td>
+        <td *ngIf="showScreen != 'DeliveryOfCourier'" class="table-column">
+          <button  type="button" class="btn btn-info" (click)="onEdit(i)">עריכה</button>
+        </td>
+        <td class="table-column"  *ngIf="delivery.type == 0" >לא שוייך לשליח</td>
+        <td class="table-column"  *ngIf="delivery.type == 1" >שוייך לשליח</td>
+        <td class="table-column"  *ngIf="delivery.type == 2" >בדרך ליעד</td>
+        <td class="table-column"  *ngIf="delivery.type == 3" >הגיע ליעד</td>
+        <td class="table-column"  *ngIf="delivery.isUrgent == 1" >כן</td>
+        <td class="table-column"  *ngIf="delivery.isUrgent == 0" >לא</td>
+        <td class="table-column">{{ delivery.box }}</td>
+        <td class="table-column">{{ delivery.floor }}</td>
+        <td class="table-column">{{ delivery.entrance }}</td>
+        <td class="table-column">{{ delivery.claimant }}</td>
+        <td class="table-column">{{ delivery.phone }}</td>
+        <td class="table-column">{{ delivery.address }}</td>
+        <td class="table-column">{{ delivery.id }}</td>
+        <th scope="row">{{ i + 1 }}</th>
+      </tr>
+    </tbody>
+  </table>
+  <button *ngIf="showScreen == 'DeliveryOfCourier'" (click)="changeScreen('Courier')" type="submit" class="btn btn-primary"><חזרה</button>
+  <button *ngIf="showScreen == 'DeliveryInRegion'" (click)="changeScreen('Region')" type="submit" class="btn btn-primary"><חזרה</button>
+</div>
+<!--Region screen-->
+<div><button *ngIf="showScreen == 'Region'" type="submit" class="btn btn-primary pull-right" (click)="showCreateNewRegion()">צור אזור חדש</button></div>
+<div *ngIf="showScreen =='Region'">
+  <table class="table table-striped table-bordered" style="width:100%">
+    <thead>
+      <tr>
+        <th class="table-column"></th>
+        <th class="table-column"></th>
+        <th class="table-column">שליחים</th>
+        <th class="table-column">משלוחים</th>
+        <th class="table-column">threshold</th>
+        <th class="table-column">שם העיר</th>
+        <th class="table-column">מספר אזור</th>
+        <th class="table-column">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let region of regions; let i = index">
+        <td class="table-column">
+          <button *ngIf="(region.delivery.length <= 0) && (region.courier.length <= 0)" type="button" class="btn btn-danger" (click)="deleteRegion(region.id)">מחיקה</button>
+        </td>
+        <td class="table-column">
+          <button type="button" class="btn btn-info" (click)="showEditRegion(region)">עריכה</button>
+        </td>
+        <td class="table-column">  <div *ngIf="region.courier.length > 0"><a  (click)="showCouriersInRegion(region)">שליחים</a></div><div  *ngIf="region.courier.length <= 0"> <a (click)="showCouriersInRegion(region)">אין שליחים</a></div></td>
+        <td class="table-column">  <div *ngIf="region.delivery.length > 0"><a  (click)="showDeliveriesInRegion(region)">משלוחים</a></div><div  *ngIf="region.delivery.length <= 0"> <a (click)="showDeliveriesInRegion(region)">אין משלוחים</a></div></td>
+        <td class="table-column">{{ region.threshold }}</td>
+        <td class="table-column">{{ region.regionName }}</td>
+        <td class="table-column">{{ region.id }}</td>
+        <th scope="row">{{ i + 1 }}</th>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="changeScreen('Menu')" type="submit" class="btn btn-primary"><חזרה לתפריט</button>
+</div>
